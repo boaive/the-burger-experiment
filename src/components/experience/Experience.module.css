@@ -1,0 +1,730 @@
+/* ── Stage ──────────────────────────────────────────────────────────────────── */
+.story {
+  position: relative;
+  height: calc((var(--story-len) + 1) * 100svh);
+  background: var(--stage-bg);
+}
+
+.stage {
+  --logo-bg: var(--stage-bg);
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--stage-bg);
+  color: var(--ink);
+  transition: color 0.5s var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.stage[data-tone="dark"] {
+  color: var(--on-char);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.1s var(--ease-out);
+  touch-action: pan-y;
+}
+
+.stage[data-webgl="ready"] .canvas canvas {
+  opacity: 1;
+}
+
+/* Without WebGL the film plays as a sequence of rendered frames. */
+.stills {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.stage[data-webgl="off"] .stills {
+  display: block;
+}
+
+.still,
+.still img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.still img {
+  object-fit: cover;
+}
+
+/* Everything timed by the story: hidden until its moment. */
+.stage [data-in] {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.55s var(--ease-out),
+    translate 0.8s var(--ease-out),
+    visibility 0s linear 0.55s;
+}
+
+.stage [data-in][data-on] {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.7s var(--ease-out),
+    translate 0.9s var(--ease-out),
+    visibility 0s;
+}
+
+/* ── Title card (the empty scene) ───────────────────────────────────────────── */
+.title {
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--header-h) + 8svh);
+  left: 50%;
+  width: min(92vw, 62rem);
+  translate: -50% -0.75rem;
+  text-align: center;
+}
+
+.title[data-on] {
+  translate: -50% 0;
+}
+
+.kicker {
+  color: var(--ink-3);
+  margin-bottom: 1.1rem;
+}
+
+.titleText {
+  font-size: clamp(2.5rem, 1.1rem + 5.4vw, 6.4rem);
+  line-height: 0.95;
+}
+
+.thesis {
+  margin-top: 1rem;
+  font-size: var(--fs-lede);
+  color: var(--ink-2);
+}
+
+.cue {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: calc(1.6rem + env(safe-area-inset-bottom));
+  translate: -50% 0;
+  display: grid;
+  justify-items: center;
+  gap: 0.7rem;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.cueLine {
+  position: relative;
+  width: 1px;
+  height: 2.6rem;
+  overflow: hidden;
+  background: var(--rule);
+}
+
+.cueLine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  translate: 0 -100%;
+  animation: drip 2.4s var(--ease-in-out) infinite;
+}
+
+@keyframes drip {
+  0% {
+    translate: 0 -100%;
+  }
+  55%,
+  100% {
+    translate: 0 100%;
+  }
+}
+
+.loading {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: calc(6.4rem + env(safe-area-inset-bottom));
+  translate: -50% 0;
+  color: var(--ink-3);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stage[data-webgl="loading"] .loading {
+  animation: fadeIn 0.6s var(--ease-out) 1.4s forwards;
+}
+
+.loading::after {
+  content: "…";
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Captions ───────────────────────────────────────────────────────────────── */
+.captions {
+  position: absolute;
+  z-index: 3;
+  left: var(--gutter);
+  top: 50%;
+  translate: 0 -50%;
+  width: min(27vw, 24rem);
+  pointer-events: none;
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  top: 0;
+  translate: 0 -50%;
+  width: 100%;
+  font-size: clamp(2rem, 0.9rem + 2.4vw, 3.5rem);
+  line-height: 1;
+}
+
+.caption:not([data-on]) {
+  translate: 0 calc(-50% + 1rem);
+}
+
+.captionPair {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  translate: 0 -50%;
+  display: grid;
+  gap: 1.1rem;
+}
+
+.captionPair .caption {
+  position: relative;
+  translate: 0 0;
+}
+
+.captionPair .caption:not([data-on]) {
+  translate: 0 1rem;
+}
+
+.captionAccent {
+  color: var(--glow);
+}
+
+/* Chapter cards: scene number, title, one line. */
+/* The free band left of the stack is ~22-26vw wide in the wide layout; stay inside it. */
+.chapter {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: min(21vw, 22rem);
+  translate: 0 -50%;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.chapter:not([data-on]) {
+  translate: 0 calc(-50% + 1rem);
+}
+
+.chapter :global(.t-ticket) {
+  opacity: 0.6;
+}
+
+/* Sized to the viewport so the longest title ("The fresh stuff") clears the stack's left edge. */
+.chapterTitle {
+  font-size: clamp(1.5rem, 2.5vw, 3rem);
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.chapterLine {
+  font-size: var(--fs-lede);
+  line-height: 1.4;
+  opacity: 0.75;
+  max-width: 18rem;
+}
+
+/* A whole-table moment gets a centred title above the meal. */
+.captionTop {
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--header-h) + 7svh);
+  left: 50%;
+  width: min(90vw, 44rem);
+  translate: -50% 0;
+  text-align: center;
+  font-size: clamp(2.2rem, 1rem + 3vw, 4.25rem);
+  line-height: 0.98;
+  pointer-events: none;
+}
+
+.captionTop:not([data-on]) {
+  translate: -50% 1rem;
+}
+
+/* ── Scene counter & skip ───────────────────────────────────────────────────── */
+.hud {
+  position: absolute;
+  z-index: 3;
+  left: var(--gutter);
+  bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.8rem;
+  row-gap: 0.55rem;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: var(--fs-ticket);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hudCount {
+  opacity: 0.6;
+}
+
+.hudTrack {
+  grid-column: 1 / -1;
+  width: 8.5rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+  position: relative;
+}
+
+.hudBar {
+  position: absolute;
+  inset: -0.5px 0;
+  background: currentColor;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+.skip {
+  position: absolute;
+  z-index: 4;
+  right: var(--gutter);
+  bottom: calc(1.1rem + env(safe-area-inset-bottom));
+  padding: 0.7rem 0;
+}
+
+/* ── Callouts ───────────────────────────────────────────────────────────────── */
+.lines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+  transition:
+    stroke-dashoffset 0.35s var(--ease-out),
+    opacity 0.3s var(--ease-out);
+}
+
+.line[data-on] {
+  stroke-dashoffset: 0;
+  opacity: 0.5;
+  transition:
+    stroke-dashoffset 0.7s var(--ease-out) 0.05s,
+    opacity 0.2s var(--ease-out);
+}
+
+.dot {
+  fill: var(--stage-bg);
+  stroke: currentColor;
+  stroke-width: 1.2;
+  opacity: 0;
+  scale: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.2s var(--ease-out),
+    scale 0.4s var(--ease-settle);
+}
+
+.dot[data-on] {
+  opacity: 1;
+  scale: 1;
+}
+
+.callouts {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  list-style: none;
+  pointer-events: none;
+}
+
+.callout {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  translate: 0 -0.62rem;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-out);
+  will-change: transform;
+}
+
+.callout[data-on] {
+  opacity: 1;
+  transition: opacity 0.5s var(--ease-out) 0.25s;
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  line-height: 1.25rem;
+  opacity: 0.55;
+}
+
+.names {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  height: 2.5rem;
+}
+
+.food,
+.digital {
+  display: grid;
+  gap: 0.1rem;
+  grid-area: 1 / 1;
+  transition: translate 0.7s var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+.names b {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  line-height: 1.25rem;
+  white-space: nowrap;
+}
+
+.names small {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+.digital {
+  translate: 0 110%;
+}
+
+.digital b {
+  color: var(--glow);
+}
+
+.callouts[data-mode="digital"] .food {
+  translate: 0 -110%;
+}
+
+.callouts[data-mode="digital"] .digital {
+  translate: 0 0;
+}
+
+/* ── Kitchen ticket (portrait) ──────────────────────────────────────────────── */
+.ticket {
+  position: absolute;
+  z-index: 3;
+  left: var(--gutter);
+  bottom: calc(3.6rem + env(safe-area-inset-bottom));
+  display: none;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 13.5rem;
+  padding: 0.8rem 1rem 0.85rem;
+  background: var(--cream-hi);
+  color: var(--ink);
+  opacity: 0;
+  translate: 0 0.5rem;
+  transition:
+    opacity 0.35s var(--ease-out),
+    translate 0.45s var(--ease-out);
+  /* Torn top edge, like a printer ticket. */
+  mask:
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% 0 / 10px 6px repeat-x,
+    linear-gradient(#000 0 0) 0 5px / 100% calc(100% - 5px) no-repeat;
+  filter: drop-shadow(0 1px 0 var(--rule));
+}
+
+.ticket[data-on] {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.ticketNum {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.35rem;
+  color: var(--ink-3);
+}
+
+.ticketText {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.ticketText b {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.35rem;
+}
+
+.ticketText small {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+:global(.is-printing) .ticketText {
+  animation: print 0.42s steps(5, end);
+}
+
+@keyframes print {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* ── The reveal ─────────────────────────────────────────────────────────────── */
+.reveal {
+  position: absolute;
+  z-index: 3;
+  left: 54%;
+  right: var(--gutter);
+  top: 50%;
+  translate: 0 -50%;
+  display: grid;
+  gap: 1.5rem;
+  max-width: 34rem;
+}
+
+.maker {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.maker :global(.t-ticket) {
+  color: var(--on-char-2);
+}
+
+.logo {
+  width: min(100%, 26rem);
+  margin-left: -1.2rem;
+}
+
+.fiction {
+  font-size: clamp(1.75rem, 0.9rem + 1.9vw, 3rem);
+  line-height: 1.02;
+}
+
+.fiction:not([data-on]),
+.statement:not([data-on]),
+.revealCta:not([data-on]) {
+  translate: 0 0.75rem;
+}
+
+.statement {
+  font-size: var(--fs-lede);
+  line-height: 1.45;
+  color: var(--on-char-2);
+  max-width: 30rem;
+}
+
+.revealCta {
+  color: var(--on-char);
+}
+
+/* ── Portrait choreography ──────────────────────────────────────────────────── */
+@media (max-aspect-ratio: 9/10) {
+  .title {
+    top: calc(var(--header-h) + 5svh);
+  }
+
+  .kicker {
+    margin-bottom: 0.8rem;
+  }
+
+  .captions {
+    top: calc(var(--header-h) + 4.5rem);
+    left: var(--gutter);
+    right: var(--gutter);
+    width: auto;
+    translate: none;
+  }
+
+  .caption {
+    translate: none;
+    font-size: clamp(1.9rem, 1.1rem + 3.6vw, 2.9rem);
+  }
+
+  .caption:not([data-on]) {
+    translate: 0 0.75rem;
+  }
+
+  .captionPair {
+    translate: none;
+    gap: 0.6rem;
+  }
+
+  .chapter {
+    width: 100%;
+    translate: none;
+    gap: 0.4rem;
+  }
+
+  .chapter:not([data-on]) {
+    translate: 0 0.75rem;
+  }
+
+  .chapterTitle {
+    font-size: clamp(1.9rem, 1.1rem + 3.6vw, 2.9rem);
+  }
+
+  .chapterLine {
+    font-size: 1rem;
+    max-width: none;
+  }
+
+  .captionTop {
+    top: calc(var(--header-h) + 4.5rem);
+    font-size: clamp(1.9rem, 1.1rem + 3.6vw, 2.9rem);
+  }
+
+  .hud {
+    top: calc(var(--header-h) + 0.4rem);
+    bottom: auto;
+  }
+
+  .ticket {
+    display: flex;
+  }
+
+  .num {
+    display: none;
+  }
+
+  .names {
+    height: 1.35rem;
+  }
+
+  .names small {
+    display: none;
+  }
+
+  .names b {
+    font-size: 0.875rem;
+  }
+
+  .reveal {
+    left: var(--gutter);
+    top: calc(var(--header-h) + 0.5rem);
+    translate: none;
+    gap: 1rem;
+    max-width: 30rem;
+  }
+
+  .logo {
+    width: min(72vw, 20rem);
+    margin-left: -0.9rem;
+  }
+
+  .fiction {
+    font-size: clamp(1.6rem, 1rem + 3vw, 2.3rem);
+  }
+
+  .statement {
+    font-size: 1rem;
+  }
+}
+
+@media (max-aspect-ratio: 9/10) and (max-height: 700px) {
+  .titleText {
+    font-size: clamp(2.2rem, 11vw, 3rem);
+  }
+
+  .caption,
+  .captionTop {
+    font-size: clamp(1.45rem, 7.4vw, 1.9rem);
+  }
+
+  .captionPair {
+    gap: 0.35rem;
+  }
+
+  .reveal {
+    gap: 0.7rem;
+  }
+
+  .logo {
+    width: min(58vw, 15rem);
+    margin-block: -0.6rem;
+  }
+
+  .fiction {
+    font-size: 1.5rem;
+  }
+
+  .statement {
+    font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage [data-in],
+  .stage [data-in][data-on] {
+    translate: none !important;
+    transition-duration: 0.3s;
+  }
+
+  .cueLine::after {
+    animation: none;
+    translate: 0 0;
+  }
+
+  .food,
+  .digital {
+    transition-duration: 0.01s;
+  }
+}

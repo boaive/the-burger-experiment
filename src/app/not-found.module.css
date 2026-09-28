@@ -1,0 +1,29 @@
+.page {
+  display: grid;
+  gap: 1.4rem;
+  align-content: center;
+  min-height: 80svh;
+  padding-top: calc(var(--header-h) + 3rem);
+  padding-bottom: 4rem;
+}
+
+.page :global(.t-ticket) {
+  color: var(--ink-3);
+}
+
+.page h1 {
+  font-size: var(--fs-h1);
+  max-width: 13ch;
+  line-height: 0.96;
+}
+
+.text {
+  font-size: var(--fs-lede);
+  color: var(--ink-2);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+}

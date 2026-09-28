@@ -1,0 +1,90 @@
+.timer {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 17rem;
+}
+
+.dial {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.face {
+  fill: var(--cream-hi);
+  stroke: var(--ink);
+  stroke-width: 2.5;
+}
+
+.minor,
+.major {
+  stroke: var(--ink);
+  stroke-linecap: round;
+}
+
+.minor {
+  stroke-width: 1;
+  opacity: 0.4;
+}
+
+.major {
+  stroke-width: 2;
+}
+
+.num {
+  fill: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.hand {
+  transform-origin: 100px 100px;
+  transform-box: view-box;
+}
+
+.hand line {
+  stroke: var(--tomato);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.hand circle {
+  fill: var(--tomato);
+}
+
+.pin {
+  fill: var(--cream-hi);
+}
+
+/* One sweep a minute, once it's been seen. */
+.timer[data-revealed] .hand {
+  animation: sweep 60s linear infinite;
+}
+
+@keyframes sweep {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timer[data-revealed] .hand {
+    animation: none;
+  }
+}
+
+.timer figcaption {
+  display: grid;
+  justify-items: center;
+  gap: 0.2rem;
+  text-align: center;
+  color: var(--ink-2);
+}
+
+.timer figcaption :global(.t-ticket) {
+  color: var(--tomato);
+}

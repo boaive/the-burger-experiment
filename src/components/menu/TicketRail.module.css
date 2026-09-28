@@ -1,0 +1,190 @@
+/* A steel rail with thermal-paper tickets hanging from it. */
+.rail {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(0.5rem, 1.5vw, 1.25rem);
+  padding-top: 1.35rem;
+  min-height: 25rem;
+}
+
+.bar {
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  top: 0;
+  height: 0.75rem;
+  border-radius: 1px;
+  background: linear-gradient(180deg, #d9d4cc 0%, #aba49b 45%, #8a837a 55%, #c6c0b7 100%);
+  box-shadow: 0 2px 0 rgb(42 26 17 / 0.08);
+}
+
+.bar::before,
+.bar::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  translate: 0 -50%;
+  background: #6f685f;
+}
+
+.bar::before {
+  left: 0.7rem;
+}
+
+.bar::after {
+  right: 0.7rem;
+}
+
+.hanger {
+  --swing: 0deg;
+  position: relative;
+  flex: none;
+  transform-origin: 50% 0;
+  rotate: calc(var(--tilt) + var(--swing));
+  filter: drop-shadow(0 6px 10px rgb(60 38 20 / 0.12));
+}
+
+.paper {
+  padding: 1.55rem 1rem 1.4rem;
+  background: #fbf7ee;
+  color: #3a2c22;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.55;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  /* Torn bottom edge. */
+  mask:
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 50% 100% / 9px 5px repeat-x,
+    linear-gradient(#000 0 0) 0 0 / 100% calc(100% - 4.5px) no-repeat;
+}
+
+.paper p {
+  margin: 0;
+}
+
+.paper hr {
+  border: 0;
+  border-top: 1px dashed rgb(58 44 34 / 0.45);
+  margin: 0.55rem 0;
+}
+
+/* The bulldog clip holding each ticket to the rail. */
+.clip {
+  position: absolute;
+  z-index: 1;
+  top: -1.05rem;
+  left: 50%;
+  width: 2.1rem;
+  height: 1.55rem;
+  translate: -50% 0;
+  border-radius: 2px 2px 4px 4px;
+  background: linear-gradient(180deg, #8d867d, #5f5850);
+}
+
+.clip::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 0.3rem;
+  height: 2px;
+  background: rgb(255 255 255 / 0.25);
+}
+
+.main {
+  width: 15.5rem;
+  z-index: 2;
+}
+
+.center {
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  min-height: 2rem;
+  padding-block: 0.3rem;
+  font-size: 0.75rem;
+  color: inherit;
+}
+
+.dots {
+  flex: 1;
+  border-bottom: 1.5px dotted rgb(58 44 34 / 0.45);
+  translate: 0 -0.25em;
+}
+
+@media (hover: hover) {
+  .line:hover {
+    color: var(--tomato);
+  }
+}
+
+.order {
+  width: 11rem;
+  margin-top: 2.2rem;
+}
+
+.memo {
+  width: 10rem;
+  margin-top: 0.6rem;
+}
+
+.memo .paper {
+  background: #fff3c9;
+}
+
+.memoHead {
+  font-weight: 500;
+  margin-bottom: 0.45rem !important;
+}
+
+.note {
+  margin-top: 0.45rem !important;
+  color: var(--tomato);
+}
+
+@media (max-width: 760px) {
+  .rail {
+    justify-content: flex-start;
+    min-height: 0;
+    padding-bottom: 1rem;
+  }
+
+  .main {
+    width: min(15.5rem, 62vw);
+  }
+
+  .order {
+    width: 9.5rem;
+  }
+
+  .memo {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .order {
+    display: none;
+  }
+
+  /* Alone on the rail, the order ticket can have its full width back. */
+  .main {
+    width: min(15.5rem, 100%);
+  }
+}

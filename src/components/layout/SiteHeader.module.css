@@ -1,0 +1,318 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  color: var(--ink);
+  transition: color 0.4s var(--ease-out);
+}
+
+.header[data-tone="dark"] {
+  color: var(--on-char);
+}
+
+.bar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: var(--header-h);
+  padding-inline: var(--gutter);
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out);
+}
+
+.header[data-bare="false"][data-scrolled="true"] .bar {
+  background: var(--cream);
+  border-color: var(--rule);
+}
+
+.header[data-bare="false"][data-scrolled="true"][data-tone="dark"] .bar {
+  background: var(--char);
+  border-color: var(--char-rule);
+}
+
+.header[data-open="true"] .bar {
+  background: var(--cream);
+  border-color: var(--rule);
+  color: var(--ink);
+}
+
+/* ── Name plate ─────────────────────────────────────────────────────────────── */
+.name {
+  display: grid;
+  gap: 0.2rem;
+  line-height: 1;
+  padding-block: 0.4rem;
+}
+
+.nameTop {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.nameMain {
+  font-family: var(--font-display);
+  font-size: 1.1875rem;
+  letter-spacing: -0.005em;
+}
+
+/* ── Desktop nav ────────────────────────────────────────────────────────────── */
+.nav {
+  margin-left: auto;
+}
+
+.nav ul {
+  display: flex;
+  gap: 1.9rem;
+}
+
+.navLink {
+  position: relative;
+  display: inline-block;
+  padding-block: 0.6rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+/* A single sesame seed marks where you are. */
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0.1rem;
+  width: 0.4rem;
+  height: 0.22rem;
+  border-radius: 50%;
+  background: var(--tomato);
+  translate: -50% 0;
+  rotate: -18deg;
+  scale: 0;
+  transition: scale 0.45s var(--ease-settle);
+}
+
+.header[data-tone="dark"] .navLink::after {
+  background: var(--glow);
+}
+
+.navLink[aria-current="page"]::after {
+  scale: 1;
+}
+
+@media (hover: hover) {
+  .navLink:hover::after {
+    scale: 1;
+  }
+}
+
+.contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.5rem;
+  padding: 0 0.85rem;
+  border: 1px solid currentColor;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.3s var(--ease-out),
+    color 0.3s var(--ease-out);
+}
+
+.contactArrow {
+  transition: translate 0.5s var(--ease-settle);
+}
+
+@media (hover: hover) {
+  .contact:hover {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+
+  .header[data-tone="dark"] .contact:hover {
+    background: var(--on-char);
+    color: var(--char);
+    border-color: var(--on-char);
+  }
+
+  .contact:hover .contactArrow {
+    translate: 3px 0;
+  }
+}
+
+/* ── Mobile toggle: three layers, bun-patty-bun ──────────────────────────────── */
+.toggle {
+  display: none;
+  margin-left: auto;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-right: -0.6rem;
+  place-items: center;
+}
+
+.icon {
+  display: grid;
+  gap: 3px;
+  width: 1.4rem;
+}
+
+.icon i {
+  display: block;
+  height: 3px;
+  background: currentColor;
+  transition:
+    translate 0.4s var(--ease-out),
+    rotate 0.4s var(--ease-out),
+    scale 0.3s var(--ease-out),
+    border-radius 0.3s;
+}
+
+.icon i:nth-child(1) {
+  height: 5px;
+  border-radius: 6px 6px 1px 1px;
+}
+
+.icon i:nth-child(2) {
+  border-radius: 2px;
+  scale: 0.86 1;
+}
+
+.icon i:nth-child(3) {
+  border-radius: 1px 1px 3px 3px;
+}
+
+.header[data-open="true"] .icon i:nth-child(1) {
+  height: 3px;
+  border-radius: 2px;
+  translate: 0 6px;
+  rotate: 45deg;
+}
+
+.header[data-open="true"] .icon i:nth-child(2) {
+  scale: 0 1;
+}
+
+.header[data-open="true"] .icon i:nth-child(3) {
+  border-radius: 2px;
+  translate: 0 -6px;
+  rotate: -45deg;
+}
+
+/* ── Mobile sheet ───────────────────────────────────────────────────────────── */
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: calc(var(--header-h) + 2rem) var(--gutter) calc(1.5rem + env(safe-area-inset-bottom));
+  background: var(--cream);
+  color: var(--ink);
+  overflow-y: auto;
+  visibility: hidden;
+  opacity: 0;
+  translate: 0 -0.75rem;
+  transition:
+    opacity 0.35s var(--ease-out),
+    translate 0.45s var(--ease-out),
+    visibility 0s linear 0.45s;
+}
+
+.header[data-open="true"] .sheet {
+  visibility: visible;
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity 0.35s var(--ease-out),
+    translate 0.45s var(--ease-out),
+    visibility 0s;
+}
+
+.sheetList {
+  display: grid;
+}
+
+.sheetList li {
+  border-bottom: 1px solid var(--rule);
+  opacity: 0;
+  translate: 0 0.5rem;
+  transition:
+    opacity 0.4s var(--ease-out),
+    translate 0.5s var(--ease-out);
+}
+
+.header[data-open="true"] .sheetList li {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: calc(var(--i) * 45ms + 60ms);
+}
+
+.sheetLink {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 9vw, 2.75rem);
+  line-height: 1.05;
+}
+
+.sheetLink :global(.t-ticket) {
+  min-width: 1.75rem;
+  color: var(--ink-3);
+}
+
+.sheetLink[aria-current="page"] {
+  color: var(--tomato);
+}
+
+.sheetFoot {
+  display: grid;
+  gap: 0.9rem;
+  font-size: 0.9375rem;
+}
+
+.sheetFoot a {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.sheetFoot :global(.t-ticket) {
+  color: var(--ink-3);
+}
+
+@media (max-width: 860px) {
+  .nav,
+  .contact {
+    display: none;
+  }
+
+  .toggle {
+    display: grid;
+  }
+}
+
+@media (min-width: 861px) {
+  .sheet {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet,
+  .sheetList li,
+  .icon i {
+    transition-duration: 0.01s !important;
+    translate: none !important;
+  }
+}

@@ -1,0 +1,335 @@
+/* The calm page: hierarchy, measure and whitespace do the work. */
+.page {
+  padding-top: var(--header-h);
+}
+
+.label {
+  color: var(--ink-3);
+}
+
+.h2 {
+  font-size: clamp(2rem, 1.4rem + 2.2vw, 3.4rem);
+  line-height: 1;
+}
+
+/* ── Opening ───────────────────────────────────────────────────────────────── */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 2rem clamp(2rem, 1rem + 4vw, 6rem);
+  align-items: center;
+  padding-top: clamp(2rem, 1rem + 3vw, 4rem);
+  padding-bottom: clamp(3.5rem, 2rem + 5vw, 7rem);
+}
+
+.heroText {
+  display: grid;
+  gap: 1.5rem;
+  align-content: center;
+}
+
+.heroText > :global(.t-ticket) {
+  color: var(--ink-3);
+}
+
+.heroTitle {
+  font-size: var(--fs-h1);
+  line-height: 0.94;
+  max-width: 11ch;
+}
+
+.heroLede {
+  max-width: 30rem;
+  color: var(--ink-2);
+}
+
+.heroFigure {
+  display: grid;
+  gap: 0.9rem;
+  justify-items: center;
+}
+
+.heroFigure img {
+  width: 100%;
+  max-width: 30rem;
+  height: auto;
+}
+
+.heroFigure figcaption {
+  color: var(--ink-3);
+}
+
+/* ── Split sections (label left, text right) ───────────────────────────────── */
+.side {
+  display: grid;
+  gap: 1.6rem;
+  align-content: start;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 1.5rem 2rem;
+  padding-block: clamp(3.5rem, 2rem + 5vw, 7rem);
+  border-top: 1px solid var(--rule-strong);
+}
+
+.splitBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2rem clamp(2rem, 1rem + 3vw, 4.5rem);
+}
+
+.prose {
+  display: grid;
+  gap: 1.1rem;
+  font-size: 1.0625rem;
+  color: var(--ink-2);
+  max-width: 34rem;
+}
+
+.aside {
+  margin-top: 0.4rem;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+/* ── Why we make it ────────────────────────────────────────────────────────── */
+.why {
+  background: var(--cream-lo);
+  padding-block: clamp(4rem, 2.5rem + 6vw, 8.5rem);
+}
+
+.whyGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: clamp(2rem, 1rem + 4vw, 6rem);
+  row-gap: 1.8rem;
+  align-items: center;
+}
+
+.whyGrid > .label {
+  grid-column: 1 / -1;
+}
+
+/* The headline and its paragraph read as one block; the timer sits beside it. */
+.whyMain {
+  display: grid;
+  gap: 1.8rem;
+  align-content: start;
+}
+
+.whyTimer {
+  width: clamp(12rem, 8rem + 8vw, 17rem);
+}
+
+.quote {
+  font-size: clamp(2.1rem, 1.2rem + 3.4vw, 4.4rem);
+  line-height: 1.02;
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.whyText {
+  max-width: 32rem;
+  color: var(--ink-2);
+  font-size: 1.0625rem;
+}
+
+/* ── What we believe ───────────────────────────────────────────────────────── */
+.beliefs {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 1.5rem 2rem;
+  padding-block: clamp(4rem, 2.5rem + 5vw, 8rem);
+}
+
+.beliefs h2 {
+  font-weight: 400;
+}
+
+.beliefList {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(2rem, 1rem + 3vw, 4.5rem);
+}
+
+.beliefList li {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  padding-block: 1.6rem 2.4rem;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.beliefList p {
+  color: var(--ink-2);
+  max-width: 28rem;
+}
+
+.beliefNum {
+  color: var(--tomato);
+}
+
+.beliefTitle {
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem);
+  line-height: 1.05;
+}
+
+/* ── Reviews ───────────────────────────────────────────────────────────────── */
+.reviews {
+  padding-block: clamp(3rem, 2rem + 4vw, 6rem);
+  border-top: 1px solid var(--rule-strong);
+}
+
+.reviewsHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8rem 2rem;
+  margin-bottom: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+}
+
+.reviewsHead :global(.t-ticket) {
+  color: var(--ink-3);
+}
+
+.reviewList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 clamp(1.5rem, 1rem + 2vw, 3rem);
+}
+
+.reviewList li {
+  padding-block: 1.6rem 2.2rem;
+  border-top: 1px solid var(--rule);
+}
+
+.reviewList figure {
+  display: grid;
+  gap: 1rem;
+}
+
+.reviewList blockquote {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 1.1rem + 0.6vw, 1.65rem);
+  line-height: 1.12;
+}
+
+.reviewList figcaption {
+  color: var(--ink-3);
+}
+
+/* ── Visit ─────────────────────────────────────────────────────────────────── */
+.visit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3rem clamp(2rem, 1rem + 4vw, 6rem);
+  align-items: center;
+  padding-block: clamp(4rem, 2.5rem + 5vw, 8rem);
+  border-top: 1px solid var(--rule-strong);
+}
+
+.visitText {
+  display: grid;
+  gap: 1.6rem;
+  align-content: start;
+}
+
+.address {
+  display: grid;
+  font-style: normal;
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+.hours {
+  width: 100%;
+  max-width: 28rem;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+}
+
+.hours th,
+.hours td {
+  padding: 0.65rem 0;
+  border-bottom: 1px dotted var(--rule-strong);
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.hours th {
+  font-weight: 400;
+  color: var(--ink-3);
+  width: 7.5rem;
+  text-transform: uppercase;
+}
+
+.visitNote {
+  max-width: 28rem;
+  color: var(--ink-2);
+}
+
+.map {
+  color: var(--ink);
+}
+
+.map svg {
+  width: 100%;
+  height: auto;
+}
+
+/* ── Smaller screens ───────────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .splitBody {
+    grid-template-columns: 1fr;
+  }
+
+  .reviewList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .heroFigure {
+    justify-items: start;
+  }
+
+  .heroFigure img {
+    max-width: min(26rem, 100%);
+  }
+
+  .split,
+  .beliefs {
+    grid-template-columns: 1fr;
+  }
+
+  .whyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .whyTimer {
+    justify-self: center;
+  }
+
+  .visit {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .beliefList,
+  .reviewList {
+    grid-template-columns: 1fr;
+  }
+}

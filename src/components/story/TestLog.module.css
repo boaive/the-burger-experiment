@@ -1,0 +1,72 @@
+/* Graph paper, a margin rule, a pen that crosses things out. */
+.log {
+  position: relative;
+  max-width: 21rem;
+  padding: 1.1rem 1.1rem 1.3rem 2.2rem;
+  background-color: #faf6ec;
+  background-image:
+    linear-gradient(90deg, transparent 1.45rem, rgb(197 56 30 / 0.35) 1.45rem, rgb(197 56 30 / 0.35) calc(1.45rem + 1px), transparent calc(1.45rem + 1px)),
+    linear-gradient(rgb(90 110 140 / 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(90 110 140 / 0.12) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    100% 1.5rem,
+    1.5rem 100%;
+  rotate: -1.2deg;
+  box-shadow:
+    0 1px 0 var(--rule),
+    0 14px 30px -18px rgb(60 38 20 / 0.35);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.5rem;
+  color: #33261d;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.entries {
+  list-style: none;
+  margin-top: 0.5rem;
+}
+
+.entries li {
+  display: grid;
+  grid-template-columns: 2.1rem 1fr auto;
+  column-gap: 0.4rem;
+}
+
+.n {
+  color: var(--ink-3);
+}
+
+.entries li:not([data-pass]) .text {
+  text-decoration: line-through;
+  text-decoration-color: rgb(197 56 30 / 0.7);
+  text-decoration-thickness: 1.5px;
+  color: rgb(51 38 29 / 0.72);
+}
+
+.mark {
+  color: var(--tomato);
+}
+
+.entries li[data-pass] .mark {
+  color: var(--lettuce);
+  font-weight: 500;
+}
+
+.signoff {
+  margin-top: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.2;
+  color: var(--tomato);
+  rotate: -3deg;
+  transform-origin: left center;
+}

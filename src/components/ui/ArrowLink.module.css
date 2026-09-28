@@ -1,0 +1,48 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  min-height: 2.75rem;
+  font-family: var(--font-text);
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: inherit;
+}
+
+.label {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 0.3em;
+  transition: background-size 0.45s var(--ease-out);
+}
+
+.arrow {
+  flex: none;
+  color: var(--tomato);
+  transition: translate 0.5s var(--ease-settle);
+}
+
+[data-surface="dark"] .arrow,
+[data-tone="dark"] .arrow {
+  color: var(--glow);
+}
+
+@media (hover: hover) {
+  .link:hover .arrow {
+    translate: 5px 0;
+  }
+
+  .link:hover .label {
+    background-size: 35% 1px;
+  }
+}
+
+.link:active .arrow {
+  translate: 8px 0;
+  transition-duration: 0.12s;
+}

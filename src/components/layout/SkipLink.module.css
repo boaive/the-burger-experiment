@@ -1,0 +1,19 @@
+.skip {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  padding: 0.6rem 0.9rem;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-mono);
+  font-size: var(--fs-ticket);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  translate: 0 -200%;
+  transition: translate 0.2s var(--ease-out);
+}
+
+.skip:focus-visible {
+  translate: 0 0;
+}

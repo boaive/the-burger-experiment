@@ -1,0 +1,248 @@
+/* ── Tokens ──────────────────────────────────────────────────────────────────
+   Colour comes from the food. The interface itself is cream paper and brown ink;
+   tomato is the one accent (links, focus); dark "char" belongs to Boaive's moments. */
+:root {
+  --cream: #f2e9da;
+  --cream-hi: #f8f2e7;
+  --cream-lo: #e7dbc5;
+  --ink: #2a1a11;
+  --ink-2: #5b4535;
+  --ink-3: #8a7261;
+  --rule: rgb(42 26 17 / 0.14);
+  --rule-strong: rgb(42 26 17 / 0.32);
+
+  --tomato: #c5381e;
+  --tomato-hi: #db4628;
+  --crust: #a8612a;
+  --cheese: #efaa35;
+  --lettuce: #5a8838;
+
+  --char: #13100e;
+  --char-hi: #1d1815;
+  --on-char: #f2e9da;
+  --on-char-2: rgb(242 233 218 / 0.64);
+  --char-rule: rgb(242 233 218 / 0.14);
+  --glow: #f39a3e;
+
+  /* The story stage animates this (cream → char) from the scene director. */
+  --stage-bg: var(--cream);
+
+  --font-display: var(--font-caprasimo), "Cooper Black", "Georgia", serif;
+  --font-text: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  --fs-ticket: 0.75rem;
+  --fs-small: 0.875rem;
+  --fs-body: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --fs-lede: clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem);
+  --fs-h3: clamp(1.375rem, 1.18rem + 0.8vw, 1.875rem);
+  --fs-h2: clamp(2rem, 1.45rem + 2.3vw, 3.5rem);
+  --fs-h1: clamp(2.5rem, 1.5rem + 4.4vw, 5.75rem);
+
+  --gutter: clamp(1.25rem, 0.6rem + 3vw, 3.5rem);
+  --maxw: 1320px;
+  --header-h: 4.25rem;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* A small overshoot, like something soft settling. */
+  --ease-settle: linear(0, 0.3 9%, 0.71 21%, 0.97 33%, 1.06 42%, 1.07 49%, 1.03 60%, 0.99 73%, 1);
+}
+
+@media (max-width: 720px) {
+  :root {
+    --header-h: 3.75rem;
+  }
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: light;
+  background: var(--cream);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: var(--header-h);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Mobile navigation sheet is open (components/layout/SiteHeader). */
+html[data-menu-open] {
+  overflow: hidden;
+}
+
+body {
+  min-height: 100svh;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* clip, not hidden: position: sticky keeps working */
+  overflow-x: clip;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 400;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--cheese);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--tomato);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+[data-tone="dark"] :focus-visible {
+  outline-color: var(--glow);
+}
+
+/* ── Paper grain ───────────────────────────────────────────────────────────────
+   One fixed layer over everything: gives the cream its tooth and the 3D its film. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .16 0 0 0 0 .1 0 0 0 0 .06 0 0 0 .075 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Type utilities ──────────────────────────────────────────────────────────── */
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  line-height: 0.98;
+}
+
+.t-h1 {
+  font-size: var(--fs-h1);
+}
+
+.t-h2 {
+  font-size: var(--fs-h2);
+}
+
+.t-h3 {
+  font-size: var(--fs-h3);
+}
+
+.t-lede {
+  font-size: var(--fs-lede);
+  line-height: 1.45;
+}
+
+/* Kitchen-ticket voice: small, mono, uppercase. Used for labels, numbers, prices. */
+.t-ticket {
+  font-family: var(--font-mono);
+  font-size: var(--fs-ticket);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Layout helpers ──────────────────────────────────────────────────────────── */
+.wrap {
+  width: 100%;
+  max-width: calc(var(--maxw) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ── Reveal on scroll (components/motion/Reveal) ─────────────────────────────── */
+.js [data-reveal] {
+  opacity: 0;
+  translate: 0 1.25rem;
+  transition:
+    opacity 0.9s var(--ease-out),
+    translate 0.9s var(--ease-out);
+  transition-delay: calc(var(--reveal-delay, 0) * 1ms);
+}
+
+.js [data-reveal][data-revealed] {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    translate: none;
+    transition: opacity 0.4s linear;
+  }
+}

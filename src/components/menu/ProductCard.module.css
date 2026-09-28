@@ -1,0 +1,181 @@
+.card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 1.1rem;
+}
+
+/* The product stands on the page itself, like food on a counter: no box around it. */
+.visual {
+  position: relative;
+  overflow: clip;
+  aspect-ratio: 4 / 5;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+.card[data-size="feature"] .visual {
+  aspect-ratio: 6 / 5;
+}
+
+@media (max-width: 799px) {
+  .card[data-size="feature"] .visual {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+.canvas,
+.poster,
+.poster img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.poster img {
+  object-fit: contain;
+}
+
+.canvas {
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-out);
+}
+
+.card[data-live="ready"] .canvas {
+  opacity: 1;
+}
+
+.poster {
+  transition: opacity 0.6s var(--ease-out);
+}
+
+.card[data-live="ready"] .poster {
+  opacity: 0;
+}
+
+/* Layer labels for burgers taken apart (positioned by the renderer). */
+.layers {
+  position: absolute;
+  inset: 0;
+  list-style: none;
+  pointer-events: none;
+  --open: 0;
+}
+
+.layers li {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  translate: 0 -50%;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-out);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink-2);
+}
+
+.layers li::before {
+  content: "";
+  width: 1.1rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.card[data-open] .layers li {
+  opacity: 1;
+  transition: opacity 0.4s var(--ease-out) calc(0.15s + var(--i) * 40ms);
+}
+
+/* ── Text ───────────────────────────────────────────────────────────────────── */
+.info {
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+}
+
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.name {
+  font-size: clamp(1.45rem, 1.1rem + 1vw, 2rem);
+  line-height: 1.05;
+}
+
+.card[data-size="compact"] .name {
+  font-size: clamp(1.3rem, 1.1rem + 0.6vw, 1.6rem);
+}
+
+/* A menu's dotted leader between name and price. */
+.leader {
+  flex: 1;
+  min-width: 1.5rem;
+  border-bottom: 1.5px dotted var(--rule-strong);
+  translate: 0 -0.3em;
+}
+
+.price {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.description {
+  color: var(--ink-2);
+  max-width: 34ch;
+}
+
+.action {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  margin-top: 0.1rem;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-ticket);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.action:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* A tiny three-layer mark that opens up with the burger. */
+.actionMark {
+  position: relative;
+  width: 0.9rem;
+  height: 0.7rem;
+  background:
+    linear-gradient(var(--tomato), var(--tomato)) 0 0 / 100% 2px no-repeat,
+    linear-gradient(var(--tomato), var(--tomato)) 0 50% / 100% 2px no-repeat,
+    linear-gradient(var(--tomato), var(--tomato)) 0 100% / 100% 2px no-repeat;
+  transition: height 0.4s var(--ease-settle);
+}
+
+.card[data-open] .actionMark,
+.action:hover .actionMark {
+  height: 0.95rem;
+}
+
+@media (hover: hover) {
+  .action:not(:disabled):hover {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+}

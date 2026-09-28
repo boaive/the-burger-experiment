@@ -1,0 +1,22 @@
+.plate {
+  display: block;
+  background: var(--logo-bg, var(--char));
+  isolation: isolate;
+  line-height: 0;
+  /* Feather only the empty margin of the crop (artwork starts 4% in from the sides, 8.7% from
+     top and bottom), so the plate never shows as a box against the page. */
+  mask-image:
+    linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent),
+    linear-gradient(180deg, transparent, #000 6%, #000 94%, transparent);
+  mask-composite: intersect;
+}
+
+.logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1016 / 400;
+  mix-blend-mode: screen;
+  user-select: none;
+  -webkit-user-drag: none;
+}

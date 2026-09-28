@@ -1,0 +1,116 @@
+.page {
+  padding-top: var(--header-h);
+}
+
+/* ── Intro ──────────────────────────────────────────────────────────────────── */
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 2.5rem clamp(2rem, 1rem + 4vw, 5rem);
+  align-items: start;
+  padding-top: clamp(3.5rem, 2rem + 6vw, 7.5rem);
+  padding-bottom: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+}
+
+.introText {
+  display: grid;
+  gap: 1.4rem;
+  align-content: start;
+}
+
+.introText > :global(.t-ticket) {
+  color: var(--ink-3);
+}
+
+.introRail {
+  padding-top: clamp(0.5rem, 3vw, 3rem);
+}
+
+.title {
+  font-size: var(--fs-h1);
+  max-width: 14ch;
+  line-height: 0.96;
+}
+
+.lede {
+  color: var(--ink-2);
+  max-width: 34rem;
+}
+
+.fine {
+  grid-column: 1 / -1;
+  color: var(--ink-3);
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* ── Categories ─────────────────────────────────────────────────────────────── */
+.category {
+  padding-block: clamp(2.5rem, 1.5rem + 3vw, 4.5rem) clamp(3.5rem, 2rem + 5vw, 7rem);
+  scroll-margin-top: var(--header-h);
+}
+
+.categoryHead {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  column-gap: 1.25rem;
+  row-gap: 0.4rem;
+  padding-bottom: clamp(1.5rem, 1rem + 2vw, 3rem);
+  border-bottom: 1px solid var(--rule-strong);
+  margin-bottom: clamp(1.5rem, 1rem + 2vw, 3rem);
+}
+
+.index {
+  color: var(--ink-3);
+}
+
+.categoryTitle {
+  font-size: var(--fs-h2);
+}
+
+.categoryNote {
+  grid-column: 2;
+  color: var(--ink-2);
+}
+
+.grid {
+  display: grid;
+  gap: clamp(2.5rem, 1.5rem + 3vw, 4.5rem) clamp(1.5rem, 1rem + 2.5vw, 3.5rem);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 560px) {
+  .grid[data-kind="sides"],
+  .grid[data-kind="drinks"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 800px) {
+  .grid[data-kind="burgers"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .grid[data-kind="sides"] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1140px) {
+  .grid[data-kind="drinks"] {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .intro {
+    grid-template-columns: 1fr;
+  }
+
+  .introRail {
+    padding-top: 0;
+  }
+}
